@@ -1,0 +1,26 @@
+{
+  "name": "books-record-management",
+  "version": "1.0.0",
+  "description": "Book record management server build with node.js and express",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "dev": "nodemon index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Devanshu2350/Books-Record-Management.git"
+  },
+  "author": "Devanshu Sharma",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Devanshu2350/Books-Record-Management/issues"
+  },
+  "homepage": "https://github.com/Devanshu2350/Books-Record-Management#readme",
+  "dependencies": {
+    "express": "^4.18.2"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.20"
+  }
+}
