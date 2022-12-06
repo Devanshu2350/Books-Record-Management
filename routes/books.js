@@ -110,4 +110,40 @@ router.post("/",(req, res) => {
         data: allBooks,
     });
 });
+
+/**
+ * route: /books/:id
+ * Method: PUT
+ * Description: Update book
+ * access:Public
+ * Parameters: id
+ * data: author, name, genre, price, publisher, id
+ */
+router.put("/:id",(req,res) => {
+    const {id} = req.params;
+    const {data} = req.body;
+
+    const book = books.find((each) => each.id === id);
+
+    if (!book) {
+        return res.status(400).json({
+            success:false,
+            message: "booknot found with this particular id",
+        });
+    }
+
+    const updateData = books.map((each) => {
+        if (each.id === id){
+             return {...each, ...data };
+        }
+        return each;
+    });
+
+    return res.status(200).json({
+        success: true,
+        data: updateData,
+    });
+    
+}) ;
+
 module.exports = router;

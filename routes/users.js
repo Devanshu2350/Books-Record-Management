@@ -129,4 +129,77 @@ router.delete("/:id", (req, res) => {
     return res.status(202).json({success: true, data: users});
 });
 
+/**
+ * route: /users/subscription-details/:id
+ * Method: DELETE
+ * Description: Get all user subscription details 
+ * access:Public
+ * Parameters: id
+ */
+router.get("/subscription-details/:id", (req, res) => {
+    const {id} = req.params;
+
+    const user = users.find((each) => each.id === id);
+
+    if (!user)
+       return res.status(404).json({
+         success: false,
+         message: "user not found",
+       });
+
+    const getDateInDays = (data = "") => {
+        let date;
+        if (data === ""){
+            //curent date
+            date = new Date(); 
+        } else {
+            //getting date on bacis of data variable
+            date = new Date(data);
+        }
+        let days = Math.floor(data / (1000*60*60*24));
+        return days;
+    };
+    
+    const subscriptionType = (date) => {
+        if(user.subscriptionType === "Basic"){
+            date = date + 90;
+        }else if (user.subscriptionType === "standard"){
+            date = date + 188;
+        }else if (user.subscriptionType === "Premium"){
+            date = date + 365;
+        }
+        return date;
+    };
+    // subscription expriration calculation
+    //anuary 1, 1970, UTC. // milliseconds
+    let returnDate = getDateInDays(user.returnDate);
+    let currentDate = getDateInDays();
+    let subscriptionDate = getDateInDays(user.subscriptionDate);
+    let subscriptionExpiration = subscriptionType(subscriptionDate);
+
+    console.log("Return Date", returnDate);
+    console.log("current Date ", currentDate);
+    console.log("subscription Date", returnDate);
+    console.log("subscription expiry date", subscriptionExpiration);
+    
+    const data = {
+       ...user,
+       subscriptionExpired: subscriptionExpiration < currentDate,
+       daysLeftForExpiration:
+           subscriptionExpiration <= currentDate
+             ? 0
+             : subscriptionExpiration - currentDate,
+        fine:
+            returnDate < currentDate
+               ? subscriptionExpiration <= currentDate
+                 ?200
+                 :100
+                : 0,
+    };
+    res.status(200).json({
+        success: true,  
+        data,
+    })
+});
+
 module.exports = router;
