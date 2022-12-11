@@ -45,7 +45,7 @@ Basic (3 months)
 Standard (6 months)
 Premium (12 months)
 
-dates will be in format mm/dd/yyyy
+NOTE: dates will be in format mm/dd/yyyy
 
 If the subscription date is 06/12/22
 and Subscription type is standard
